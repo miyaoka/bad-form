@@ -52,17 +52,12 @@ watch(decimalValue, (val) => {
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-row">
-      <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
-        <span class="select-none text-gray-500">
-          {{ bitLength - n + 1 }}
-        </span>
-        <input type="checkbox" name="" v-model="bitArray[n - 1]" />
-      </label>
-    </div>
-    <div class="text-xl text-center">
-      {{ decimalValue }}
-    </div>
+  <div class="flex flex-row">
+    <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
+      <span class="select-none text-gray-500">
+        {{ bitLength - n + 1 }}
+      </span>
+      <input type="checkbox" name="" v-model="bitArray[n - 1]" />
+    </label>
   </div>
 </template>
