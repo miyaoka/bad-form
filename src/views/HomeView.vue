@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
+import { ref } from "vue";
 
 const onSubmit = () => {};
+const initialYear = ref(2000);
 </script>
 
 <template>
@@ -12,7 +14,7 @@ const onSubmit = () => {};
       </header>
       <div class="flex flex-row gap-8">
         <div class="flex flex-row items-center gap-2">
-          <CheckBoxNumberInput :min="1900" :max="2100" />
+          <CheckBoxNumberInput :min="1900" :max="2100" v-model="initialYear" />
           <p class="text-xl">年</p>
         </div>
         <div class="flex flex-row items-center gap-2">

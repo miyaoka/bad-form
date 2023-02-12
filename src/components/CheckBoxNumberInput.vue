@@ -2,9 +2,12 @@
 import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
-  value?: number;
+  modelValue?: number;
   min?: number;
   max?: number;
+}>();
+const emit = defineEmits<{
+  (e: "update:modelValue", value: number): void;
 }>();
 
 const getBitLength = (num: number) => {
@@ -13,35 +16,53 @@ const getBitLength = (num: number) => {
 const min = computed(() => Math.max(0, props.min ?? 0));
 const max = computed(() => Math.min(2 ** 53, props.max ?? 10));
 const bitLength = computed(() => getBitLength(max.value));
-const checked = ref<boolean[]>([]);
-const sum = computed(() => {
-  const bitStr = checked.value.map((check) => (check ? 1 : 0)).join("");
+const bitArray = ref<boolean[]>([]);
+const decimalValue = computed(() => {
+  const bitStr = bitArray.value.map((check) => (check ? 1 : 0)).join("");
   return parseInt(bitStr, 2);
 });
 
 watch(
   bitLength,
   (len) => {
-    checked.value = [...Array(len)].map(() => false);
+    bitArray.value = [...Array(len)].map(() => false);
   },
   {
     immediate: true,
   }
 );
+watch(
+  () => props.modelValue,
+  (val) => {
+    const decimal = Math.floor(val ?? 0);
+    const binary = decimal.toString(2);
+
+    const paddedBinary = binary
+      .padStart(bitLength.value)
+      .slice(-bitLength.value);
+
+    bitArray.value = paddedBinary.split("").map((item) => item === "1");
+  },
+  { immediate: true }
+);
+
+watch(decimalValue, (val) => {
+  emit("update:modelValue", val);
+});
 </script>
 
 <template>
   <div>
     <div class="flex flex-row">
       <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
-        <span class="select-none">
+        <span class="select-none text-gray-500">
           {{ bitLength - n + 1 }}
         </span>
-        <input type="checkbox" name="" v-model="checked[n - 1]" />
+        <input type="checkbox" name="" v-model="bitArray[n - 1]" />
       </label>
     </div>
     <div class="text-xl text-center">
-      {{ sum }}
+      {{ decimalValue }}
     </div>
   </div>
 </template>
