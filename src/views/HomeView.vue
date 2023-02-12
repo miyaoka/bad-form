@@ -3,6 +3,7 @@ import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
 import { computed, ref } from "vue";
 import areaCodeList from "@/assets/areaCode.json";
 
+const score = ref(0);
 const year = ref(2000);
 const month = ref(0);
 const day = ref(0);
@@ -50,10 +51,12 @@ const onSubmit = () => {
     String(month.value).padStart(2, "0"),
     String(day.value).padStart(2, "0"),
   ].join("-");
-  alert(`生年月日：${date}
+  alert(`セミナーの点数：${score.value}
+生年月日：${date}
 電話番号：${formattedPhoneNumber.value}
 地球の人口：${population.value}
-で入力を受け付けました`);
+で入力を受け付けました
+（特に送信してません）`);
 };
 
 const speech = (text: string) => {
@@ -86,9 +89,27 @@ const phoneValidator = {
       <header>
         <h2 class="text-3xl text-center">わくわくアンケートフォーム</h2>
       </header>
+
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">Q1. 生年月日を入力してください（二進法で）</h3>
+          <h3 class="text-2xl">Q1. 当セミナーの感想（5点満点。二進法で）</h3>
+        </header>
+
+        <div class="flex flex-row gap-8">
+          <div class="flex flex-row items-center gap-2">
+            <div class="flex flex-col">
+              <p class="text-2xl text-center">
+                {{ score }}
+              </p>
+              <CheckBoxNumberInput :min="1" :max="5" v-model="score" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-4">
+        <header>
+          <h3 class="text-2xl">Q2. 生年月日を入力してください（二進法で）</h3>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -129,7 +150,7 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">Q2. 連絡のつく日本国内の電話番号（二進法で）</h3>
+          <h3 class="text-2xl">Q3. 連絡のつく日本国内の電話番号（二進法で）</h3>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -152,7 +173,7 @@ const phoneValidator = {
       <section class="flex flex-col gap-4">
         <header>
           <h3 class="text-2xl">
-            Q3. 地球の人口はどのくらいだと思いますか？（二進法で）
+            Q4. 地球の人口はどのくらいだと思いますか？（二進法で）
           </h3>
         </header>
 
