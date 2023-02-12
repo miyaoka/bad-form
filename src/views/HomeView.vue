@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
+import IconSpeaker from "@/components/icons/IconSpeaker.vue";
 import { ref } from "vue";
 import { areaCodeList } from "./areaCode";
 
@@ -121,10 +122,10 @@ const speech = (text: string) => {
               @click="speech(`${population}人`)"
               class="flex flex-row border p-1 gap-2"
             >
-              <img
+              <IconSpeaker
                 alt="再生"
                 class="h-6 w-6"
-                src="https://twemoji.maxcdn.com/2/svg/25b6.svg"
+                src="https://em-content.zobj.net/thumbs/120/openmoji/338/speaker-low-volume_1f508.png"
                 @click="speech(`${population}人`)"
               />
               再生
