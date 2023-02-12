@@ -84,7 +84,7 @@ watch(decimalValue, (val) => {
 </script>
 
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row container">
     <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
       <input
         type="checkbox"
@@ -98,3 +98,9 @@ watch(decimalValue, (val) => {
     </label>
   </div>
 </template>
+
+<style scoped>
+.container:has(:invalid) {
+  outline: 1px solid #f00;
+}
+</style>
