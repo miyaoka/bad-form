@@ -84,18 +84,22 @@ const phoneValidator = {
 </script>
 
 <template>
-  <main class="flex flex-col items-center p-20 gap-10">
+  <main class="flex flex-col items-center px-2 py-4 sm:py-10 gap-10">
     <form
       @submit.prevent="onSubmit"
-      class="flex flex-col gap-16 border p-10 surveyForm"
+      class="flex flex-col gap-16 border p-4 sm:p-10 surveyForm"
     >
       <header>
-        <h1 class="text-3xl text-center">わくわくアンケートフォーム</h1>
+        <h1 class="sm:text-3xl text-2xl text-center">
+          わくわくアンケートフォーム
+        </h1>
       </header>
 
       <section class="flex flex-col gap-4">
         <header>
-          <h2 class="text-2xl">Q1. 当セミナーの感想（5点満点。二進法で）</h2>
+          <h2 class="sm:text-2xl text-xl">
+            Q1. 当セミナーの感想（5点満点。二進法で）
+          </h2>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -112,10 +116,12 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h2 class="text-2xl">Q2. 生年月日を入力してください（二進法で）</h2>
+          <h2 class="sm:text-2xl text-xl">
+            Q2. 生年月日を入力してください（二進法で）
+          </h2>
         </header>
 
-        <div class="flex flex-row gap-8">
+        <div class="flex md:flex-row flex-col gap-8">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
               <p class="text-2xl text-center">
@@ -153,7 +159,9 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h2 class="text-2xl">Q3. 連絡のつく日本国内の電話番号（二進法で）</h2>
+          <h2 class="sm:text-2xl text-xl">
+            Q3. 連絡のつく日本国内の電話番号（二進法で）
+          </h2>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -175,12 +183,12 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h2 class="text-2xl">
+          <h2 class="sm:text-2xl text-xl">
             Q4. 地球の人口はどのくらいだと思いますか？（二進法で）
           </h2>
         </header>
 
-        <div class="flex flex-row gap-8">
+        <div class="flex flex-row gap-8 flex-wrap">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
               <p class="text-2xl text-center">
@@ -193,6 +201,8 @@ const phoneValidator = {
               />
             </div>
             <p class="text-xl">人</p>
+          </div>
+          <div>
             <button
               type="button"
               @click="speech(`${population}人`)"

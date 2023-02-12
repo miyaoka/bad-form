@@ -87,8 +87,8 @@ watch(decimalValue, (val) => {
 </script>
 
 <template>
-  <div class="flex flex-row checkBoxContainer">
-    <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
+  <div class="flex flex-row flex-wrap checkBoxContainer">
+    <label :key="n" v-for="n in bitLength" class="flex flex-col p-0.5 sm:p-1">
       <input
         type="checkbox"
         v-model="bitArray[n - 1]"
