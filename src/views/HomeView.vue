@@ -89,7 +89,7 @@ const phoneValidator = () => {
   <main class="flex flex-col items-center px-2 py-4 sm:py-10 gap-10">
     <form
       @submit.prevent="onSubmit"
-      class="flex flex-col gap-16 border p-4 sm:p-10 surveyForm"
+      class="flex flex-col gap-16 border p-4 sm:p-10 surveyForm max-w-5xl"
     >
       <header>
         <h1 class="sm:text-3xl text-2xl text-center">
@@ -200,7 +200,7 @@ const phoneValidator = () => {
           </h2>
         </header>
 
-        <div class="flex flex-row gap-8 flex-wrap">
+        <div class="flex flex-col gap-8">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
               <p class="text-2xl text-center">
