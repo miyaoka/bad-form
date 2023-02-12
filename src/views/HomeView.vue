@@ -196,8 +196,8 @@ const phoneValidator = {
                 {{ formatNum(population) }}
               </p>
               <CheckBoxNumberInput
-                :min="10000000"
-                :max="10000000000"
+                :min="1"
+                :max="Number.MAX_SAFE_INTEGER"
                 v-model="population"
               />
             </div>
