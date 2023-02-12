@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
 import { ref } from "vue";
+import { areaCodeList } from "./areaCode";
 
 const year = ref(2000);
 const month = ref(0);
@@ -10,9 +11,18 @@ const population = ref(0);
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 const formatNum = (num: number) => numberFormatter.format(num);
+
+const phoneReg = new RegExp(
+  `^(?<area>${["[^0]0", ...areaCodeList].join("|")})(?<rest1>.*)(?<rest2>.{4})`
+);
 const formatPhone = (num: number) => {
   if (num === 0) return "0";
-  return `0${num}`;
+
+  const groups = String(num).match(phoneReg)?.groups;
+  if (!groups) return `0${num}`;
+
+  const { area, rest1, rest2 } = groups;
+  return `0${area}-${rest1}-${rest2}`;
 };
 const onSubmit = () => {};
 </script>
