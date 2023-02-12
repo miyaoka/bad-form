@@ -10,7 +10,13 @@ const day = ref(0);
 const phoneNumber = ref(9012345678);
 const population = ref(0);
 const formattedPhoneNumber = computed(() => formatPhone(phoneNumber.value));
-
+const ymd = computed(() =>
+  [
+    year.value,
+    String(month.value).padStart(2, "0"),
+    String(day.value).padStart(2, "0"),
+  ].join("-")
+);
 const numberFormatter = new Intl.NumberFormat("en-US");
 const formatNum = (num: number) => numberFormatter.format(num);
 
@@ -46,13 +52,8 @@ const formatPhone = (num: number) => {
   return `0${strNum}`;
 };
 const onSubmit = () => {
-  const date = [
-    year.value,
-    String(month.value).padStart(2, "0"),
-    String(day.value).padStart(2, "0"),
-  ].join("-");
   alert(`セミナーの点数：${score.value}
-生年月日：${date}
+生年月日：${ymd.value}
 電話番号：${formattedPhoneNumber.value}
 地球の人口：${population.value}
 で入力を受け付けました
@@ -68,7 +69,7 @@ const speech = (text: string) => {
 
 const dateValidator = {
   cb: () => {
-    const date = new Date(`${year.value}-${month.value}-${day.value}`);
+    const date = new Date(ymd.value);
     // Invalid date、または2/30->3/2のように月が合わなくなる場合にエラーにする
     return date.getMonth() + 1 !== month.value;
   },
