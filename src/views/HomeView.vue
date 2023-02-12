@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
-import IconSpeaker from "@/components/icons/IconSpeaker.vue";
 import { computed, ref } from "vue";
-import { areaCodeList } from "./areaCode";
+import areaCodeList from "@/assets/areaCode.json";
 
 const year = ref(2000);
 const month = ref(0);
@@ -14,28 +13,32 @@ const formattedPhoneNumber = computed(() => formatPhone(phoneNumber.value));
 const numberFormatter = new Intl.NumberFormat("en-US");
 const formatNum = (num: number) => numberFormatter.format(num);
 
-// 固定電話用
+// 固定電話: 市外局番-市内局番-4桁番号
 const homePhoneReg = new RegExp(
-  `^(?<area>${areaCodeList.join("|")})(?<rest1>.+)(?<rest2>.{4})`
+  `^(?<area>${areaCodeList.join("|")})(?<localArea>.+)(?<rest>.{4})`
 );
-// 携帯電話用
-const mobilePhoneReg = new RegExp(`^(?<area>[^0]0)(?<rest1>.+)(?<rest2>.{4})`);
+// 携帯電話: 0x0-市内局番-4桁番号
+const mobilePhoneReg = new RegExp(
+  `^(?<area>[^0]0)(?<localArea>.+)(?<rest>.{4})`
+);
+
 // 電話番号の形式が正しい場合にハイフン区切りにして返す
 const formatPhone = (num: number) => {
   if (num === 0) return "0";
   const strNum = String(num);
 
-  const homePhoneGroups = strNum.match(homePhoneReg)?.groups;
-  if (homePhoneGroups) {
-    const { area, rest1, rest2 } = homePhoneGroups;
+  const homePhoneMatchedGroups = strNum.match(homePhoneReg)?.groups;
+  if (homePhoneMatchedGroups) {
+    const { area, localArea, rest } = homePhoneMatchedGroups;
     // 固定電話は市外局番と市内局番が合計5桁
-    if (area.length + rest1.length === 5) return `0${area}-${rest1}-${rest2}`;
+    if (area.length + localArea.length === 5)
+      return `0${area}-${localArea}-${rest}`;
   }
 
-  const mobilePhoneGroups = strNum.match(mobilePhoneReg)?.groups;
-  if (mobilePhoneGroups) {
-    const { area, rest1, rest2 } = mobilePhoneGroups;
-    return `0${area}-${rest1}-${rest2}`;
+  const mobilePhoneMatchedGroups = strNum.match(mobilePhoneReg)?.groups;
+  if (mobilePhoneMatchedGroups) {
+    const { area, localArea, rest } = mobilePhoneMatchedGroups;
+    return `0${area}-${localArea}-${rest}`;
   }
 
   // マッチしない場合はハイフン無しで返す
@@ -171,10 +174,10 @@ const phoneValidator = {
               @click="speech(`${population}人`)"
               class="flex flex-row border p-1 gap-2"
             >
-              <IconSpeaker
+              <img
                 alt="再生"
                 class="h-6 w-6"
-                src="https://em-content.zobj.net/thumbs/120/openmoji/338/speaker-low-volume_1f508.png"
+                src="@/assets/IconSpeaker.svg"
                 @click="speech(`${population}人`)"
               />
               再生

@@ -1,4 +1,4 @@
-export const areaCodeList = [
+[
   "11",
   "123",
   "124",
@@ -385,5 +385,5 @@ export const areaCodeList = [
   "995",
   "996",
   "9969",
-  "997",
-];
+  "997"
+]
