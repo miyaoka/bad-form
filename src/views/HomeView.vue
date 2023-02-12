@@ -14,7 +14,7 @@ const numberFormatter = new Intl.NumberFormat("en-US");
 const formatNum = (num: number) => numberFormatter.format(num);
 
 const phoneReg = new RegExp(
-  `^(?<area>${["[^0]0", ...areaCodeList].join("|")})(?<rest1>.*)(?<rest2>.{4})`
+  `^(?<area>${["[^0]0", ...areaCodeList].join("|")})(?<rest1>.+)(?<rest2>.{4})`
 );
 const formatPhone = (num: number) => {
   if (num === 0) return "0";
@@ -31,6 +31,21 @@ const speech = (text: string) => {
   const uttr = new SpeechSynthesisUtterance();
   uttr.text = text;
   window.speechSynthesis.speak(uttr);
+};
+
+const dateValidator = {
+  cb: () => {
+    const date = new Date(`${year.value}-${month.value}-${mday.value}`);
+    return date.getMonth() + 1 !== month.value;
+  },
+  msg: "存在しない日付です",
+};
+
+const phoneValidator = {
+  cb: () => {
+    return !/-/.test(formatPhone(phoneNumber.value));
+  },
+  msg: "有効な番号ではありません",
 };
 </script>
 
@@ -66,7 +81,12 @@ const speech = (text: string) => {
           </div>
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
-              <CheckBoxNumberInput :min="1" :max="31" v-model="mday" />
+              <CheckBoxNumberInput
+                :min="1"
+                :max="31"
+                v-model="mday"
+                :validator="dateValidator"
+              />
               <p class="text-2xl text-center">
                 {{ mday }}
               </p>
@@ -88,6 +108,7 @@ const speech = (text: string) => {
                 :min="0"
                 :max="9999999999"
                 v-model="phoneNumber"
+                :validator="phoneValidator"
               />
               <p class="text-2xl text-center">
                 {{ formatPhone(phoneNumber) }}
@@ -108,7 +129,7 @@ const speech = (text: string) => {
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
               <CheckBoxNumberInput
-                :min="0"
+                :min="10000000"
                 :max="10000000000"
                 v-model="population"
               />

@@ -5,6 +5,10 @@ const props = defineProps<{
   modelValue?: number;
   min?: number;
   max?: number;
+  validator?: {
+    cb: () => boolean;
+    msg: string;
+  };
 }>();
 const emit = defineEmits<{
   (e: "update:modelValue", value: number): void;
@@ -21,6 +25,33 @@ const decimalValue = computed(() => {
   const bitStr = bitArray.value.map((check) => (check ? 1 : 0)).join("");
   return parseInt(bitStr, 2);
 });
+const inputEl = ref<HTMLInputElement | null>(null);
+const setInputRef = (el: HTMLInputElement, i: number) => {
+  // 配列中央のinputを対象にする
+  if (i !== Math.ceil(bitLength.value / 2)) return;
+  inputEl.value = el;
+  validate();
+};
+const validate = () => {
+  if (!inputEl.value) return;
+
+  if (props.validator) {
+    if (props.validator.cb()) {
+      inputEl.value.setCustomValidity(props.validator.msg);
+      return;
+    }
+  }
+
+  if (decimalValue.value < min.value) {
+    inputEl.value.setCustomValidity(`${min.value}以上の値で入力してください`);
+    return;
+  }
+  if (decimalValue.value > max.value) {
+    inputEl.value.setCustomValidity(`${max.value}以下の値で入力してください`);
+    return;
+  }
+  inputEl.value.setCustomValidity("");
+};
 
 watch(
   bitLength,
@@ -48,6 +79,7 @@ watch(
 
 watch(decimalValue, (val) => {
   emit("update:modelValue", val);
+  validate();
 });
 </script>
 
@@ -57,7 +89,12 @@ watch(decimalValue, (val) => {
       <span class="select-none text-gray-500">
         {{ bitLength - n }}
       </span>
-      <input type="checkbox" name="" v-model="bitArray[n - 1]" />
+      <input
+        type="checkbox"
+        name=""
+        v-model="bitArray[n - 1]"
+        :ref="(el) => setInputRef(el as HTMLInputElement, n)"
+      />
     </label>
   </div>
 </template>
