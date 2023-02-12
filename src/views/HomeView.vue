@@ -90,12 +90,12 @@ const phoneValidator = {
       class="flex flex-col gap-16 border p-10 surveyForm"
     >
       <header>
-        <h2 class="text-3xl text-center">わくわくアンケートフォーム</h2>
+        <h1 class="text-3xl text-center">わくわくアンケートフォーム</h1>
       </header>
 
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">Q1. 当セミナーの感想（5点満点。二進法で）</h3>
+          <h2 class="text-2xl">Q1. 当セミナーの感想（5点満点。二進法で）</h2>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -112,7 +112,7 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">Q2. 生年月日を入力してください（二進法で）</h3>
+          <h2 class="text-2xl">Q2. 生年月日を入力してください（二進法で）</h2>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -153,7 +153,7 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">Q3. 連絡のつく日本国内の電話番号（二進法で）</h3>
+          <h2 class="text-2xl">Q3. 連絡のつく日本国内の電話番号（二進法で）</h2>
         </header>
 
         <div class="flex flex-row gap-8">
@@ -175,9 +175,9 @@ const phoneValidator = {
 
       <section class="flex flex-col gap-4">
         <header>
-          <h3 class="text-2xl">
+          <h2 class="text-2xl">
             Q4. 地球の人口はどのくらいだと思いますか？（二進法で）
-          </h3>
+          </h2>
         </header>
 
         <div class="flex flex-row gap-8">
