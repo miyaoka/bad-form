@@ -34,19 +34,14 @@ const validate = () => {
   if (!inputEl.value) return;
 
   const getErrorMsg = () => {
-    if (props.validator) {
-      const msg = props.validator();
-      if (msg !== "") return msg;
-    }
-
     if (decimalValue.value < min.value) {
       return `${min.value}以上の値で入力してください`;
     }
     if (decimalValue.value > max.value) {
       return `${max.value}以下の値で入力してください`;
     }
-    // no error
-    return "";
+    // custom validation
+    return props.validator?.() ?? "";
   };
   errorMsg.value = getErrorMsg();
   inputEl.value.setCustomValidity(errorMsg.value);
