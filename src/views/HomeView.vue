@@ -25,11 +25,20 @@ const formatPhone = (num: number) => {
   return `0${area}-${rest1}-${rest2}`;
 };
 const onSubmit = () => {};
+
+const speech = (text: string) => {
+  const uttr = new SpeechSynthesisUtterance();
+  uttr.text = text;
+  window.speechSynthesis.speak(uttr);
+};
 </script>
 
 <template>
-  <main>
-    <form @submit.prevent="onSubmit" class="flex flex-col gap-16">
+  <main class="flex justify-center p-20">
+    <form @submit.prevent="onSubmit" class="flex flex-col gap-16 border p-10">
+      <header>
+        <h2 class="text-3xl text-center">わくわくアンケートフォーム</h2>
+      </header>
       <section class="flex flex-col gap-4">
         <header>
           <h3 class="text-2xl">Q1. 生年月日を入力してください（二進法で）</h3>
@@ -107,10 +116,22 @@ const onSubmit = () => {};
               </p>
             </div>
             <p class="text-xl">人</p>
+            <button
+              type="button"
+              @click="speech(`${population}人`)"
+              class="flex flex-row border p-1 gap-2"
+            >
+              <img
+                alt="再生"
+                class="h-6 w-6"
+                src="https://twemoji.maxcdn.com/2/svg/25b6.svg"
+                @click="speech(`${population}人`)"
+              />
+              再生
+            </button>
           </div>
         </div>
       </section>
-
       <footer class="flex justify-center">
         <button type="submit" class="bg-blue-500 text-white px-10 py-2">
           送信
