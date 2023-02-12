@@ -18,7 +18,7 @@ const getBitLength = (num: number) => {
   return (Math.log2(num) + 1) | 0;
 };
 const min = computed(() => Math.max(0, props.min ?? 0));
-const max = computed(() => Math.min(2 ** 53, props.max ?? 10));
+const max = computed(() => Math.min(Number.MAX_SAFE_INTEGER, props.max ?? 10));
 const bitLength = computed(() => getBitLength(max.value));
 const bitArray = ref<boolean[]>([]);
 const decimalValue = computed(() => {
