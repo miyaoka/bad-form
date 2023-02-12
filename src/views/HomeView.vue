@@ -6,7 +6,7 @@ import { areaCodeList } from "./areaCode";
 
 const year = ref(2000);
 const month = ref(0);
-const mday = ref(0);
+const day = ref(0);
 const phoneNumber = ref(9012345678);
 const population = ref(0);
 
@@ -25,7 +25,12 @@ const formatPhone = (num: number) => {
   const { area, rest1, rest2 } = groups;
   return `0${area}-${rest1}-${rest2}`;
 };
-const onSubmit = () => {};
+const onSubmit = () => {
+  alert(`生年月日：${year.value}-${month.value}-${day.value}
+電話番号：${phoneNumber.value}
+地球の人口：${population.value}
+で入力を受け付けました`);
+};
 
 const speech = (text: string) => {
   const uttr = new SpeechSynthesisUtterance();
@@ -35,7 +40,8 @@ const speech = (text: string) => {
 
 const dateValidator = {
   cb: () => {
-    const date = new Date(`${year.value}-${month.value}-${mday.value}`);
+    const date = new Date(`${year.value}-${month.value}-${day.value}`);
+    // Invalid date、または2/30->3/2のように月が合わなくなる場合にエラーにする
     return date.getMonth() + 1 !== month.value;
   },
   msg: "存在しない日付です",
@@ -63,33 +69,33 @@ const phoneValidator = {
         <div class="flex flex-row gap-8">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
-              <CheckBoxNumberInput :min="1900" :max="2100" v-model="year" />
               <p class="text-2xl text-center">
                 {{ formatNum(year) }}
               </p>
+              <CheckBoxNumberInput :min="1900" :max="2100" v-model="year" />
             </div>
             <p class="text-xl">年</p>
           </div>
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
-              <CheckBoxNumberInput :min="1" :max="12" v-model="month" />
               <p class="text-2xl text-center">
                 {{ month }}
               </p>
+              <CheckBoxNumberInput :min="1" :max="12" v-model="month" />
             </div>
             <p class="text-xl">月</p>
           </div>
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
+              <p class="text-2xl text-center">
+                {{ day }}
+              </p>
               <CheckBoxNumberInput
                 :min="1"
                 :max="31"
-                v-model="mday"
+                v-model="day"
                 :validator="dateValidator"
               />
-              <p class="text-2xl text-center">
-                {{ mday }}
-              </p>
             </div>
             <p class="text-xl">日</p>
           </div>
@@ -104,15 +110,15 @@ const phoneValidator = {
         <div class="flex flex-row gap-8">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
+              <p class="text-2xl text-center">
+                {{ formatPhone(phoneNumber) }}
+              </p>
               <CheckBoxNumberInput
                 :min="0"
                 :max="9999999999"
                 v-model="phoneNumber"
                 :validator="phoneValidator"
               />
-              <p class="text-2xl text-center">
-                {{ formatPhone(phoneNumber) }}
-              </p>
             </div>
           </div>
         </div>
@@ -128,14 +134,14 @@ const phoneValidator = {
         <div class="flex flex-row gap-8">
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
+              <p class="text-2xl text-center">
+                {{ formatNum(population) }}
+              </p>
               <CheckBoxNumberInput
                 :min="10000000"
                 :max="10000000000"
                 v-model="population"
               />
-              <p class="text-2xl text-center">
-                {{ formatNum(population) }}
-              </p>
             </div>
             <p class="text-xl">人</p>
             <button
