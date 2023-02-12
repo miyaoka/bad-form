@@ -34,7 +34,9 @@ watch(
   <div>
     <div class="flex flex-row">
       <label :key="n" v-for="n in bitLength" class="flex flex-col p-1">
-        {{ bitLength - n + 1 }}
+        <span class="select-none">
+          {{ bitLength - n + 1 }}
+        </span>
         <input type="checkbox" name="" v-model="checked[n - 1]" />
       </label>
     </div>
