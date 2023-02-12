@@ -85,7 +85,10 @@ const phoneValidator = {
 
 <template>
   <main class="flex flex-col items-center p-20 gap-10">
-    <form @submit.prevent="onSubmit" class="flex flex-col gap-16 border p-10">
+    <form
+      @submit.prevent="onSubmit"
+      class="flex flex-col gap-16 border p-10 surveyForm"
+    >
       <header>
         <h2 class="text-3xl text-center">わくわくアンケートフォーム</h2>
       </header>
@@ -217,3 +220,9 @@ const phoneValidator = {
     </footer>
   </main>
 </template>
+
+<style scoped>
+.surveyForm:has(:invalid) button[type="submit"] {
+  background: #999;
+}
+</style>
