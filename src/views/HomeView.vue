@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CheckBoxNumberInput from "@/components/CheckBoxNumberInput.vue";
 import IconSpeaker from "@/components/icons/IconSpeaker.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { areaCodeList } from "./areaCode";
 
 const year = ref(2000);
@@ -9,25 +9,46 @@ const month = ref(0);
 const day = ref(0);
 const phoneNumber = ref(9012345678);
 const population = ref(0);
+const formattedPhoneNumber = computed(() => formatPhone(phoneNumber.value));
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 const formatNum = (num: number) => numberFormatter.format(num);
 
-const phoneReg = new RegExp(
-  `^(?<area>${["[^0]0", ...areaCodeList].join("|")})(?<rest1>.+)(?<rest2>.{4})`
+// 固定電話用
+const homePhoneReg = new RegExp(
+  `^(?<area>${areaCodeList.join("|")})(?<rest1>.+)(?<rest2>.{4})`
 );
+// 携帯電話用
+const mobilePhoneReg = new RegExp(`^(?<area>[^0]0)(?<rest1>.+)(?<rest2>.{4})`);
+// 電話番号の形式が正しい場合にハイフン区切りにして返す
 const formatPhone = (num: number) => {
   if (num === 0) return "0";
+  const strNum = String(num);
 
-  const groups = String(num).match(phoneReg)?.groups;
-  if (!groups) return `0${num}`;
+  const homePhoneGroups = strNum.match(homePhoneReg)?.groups;
+  if (homePhoneGroups) {
+    const { area, rest1, rest2 } = homePhoneGroups;
+    // 固定電話は市外局番と市内局番が合計5桁
+    if (area.length + rest1.length === 5) return `0${area}-${rest1}-${rest2}`;
+  }
 
-  const { area, rest1, rest2 } = groups;
-  return `0${area}-${rest1}-${rest2}`;
+  const mobilePhoneGroups = strNum.match(mobilePhoneReg)?.groups;
+  if (mobilePhoneGroups) {
+    const { area, rest1, rest2 } = mobilePhoneGroups;
+    return `0${area}-${rest1}-${rest2}`;
+  }
+
+  // マッチしない場合はハイフン無しで返す
+  return `0${strNum}`;
 };
 const onSubmit = () => {
-  alert(`生年月日：${year.value}-${month.value}-${day.value}
-電話番号：${phoneNumber.value}
+  const date = [
+    year.value,
+    String(month.value).padStart(2, "0"),
+    String(day.value).padStart(2, "0"),
+  ].join("-");
+  alert(`生年月日：${date}
+電話番号：${formattedPhoneNumber.value}
 地球の人口：${population.value}
 で入力を受け付けました`);
 };
@@ -49,7 +70,7 @@ const dateValidator = {
 
 const phoneValidator = {
   cb: () => {
-    return !/-/.test(formatPhone(phoneNumber.value));
+    return !/-/.test(formattedPhoneNumber.value);
   },
   msg: "有効な番号ではありません",
 };
@@ -111,7 +132,7 @@ const phoneValidator = {
           <div class="flex flex-row items-center gap-2">
             <div class="flex flex-col">
               <p class="text-2xl text-center">
-                {{ formatPhone(phoneNumber) }}
+                {{ formattedPhoneNumber }}
               </p>
               <CheckBoxNumberInput
                 :min="0"
