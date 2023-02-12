@@ -77,7 +77,7 @@ const phoneValidator = {
 </script>
 
 <template>
-  <main class="flex justify-center p-20">
+  <main class="flex flex-col items-center p-20 gap-10">
     <form @submit.prevent="onSubmit" class="flex flex-col gap-16 border p-10">
       <header>
         <h2 class="text-3xl text-center">わくわくアンケートフォーム</h2>
@@ -187,5 +187,8 @@ const phoneValidator = {
         </button>
       </footer>
     </form>
+    <footer class="text-center underline">
+      <a href="https://github.com/miyaoka/bad-form">Source</a>
+    </footer>
   </main>
 </template>
