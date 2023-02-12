@@ -32,25 +32,28 @@ const setInputRef = (el: HTMLInputElement, i: number) => {
   inputEl.value = el;
   validate();
 };
+const errorMsg = ref("");
 const validate = () => {
   if (!inputEl.value) return;
 
-  if (props.validator) {
-    if (props.validator.cb()) {
-      inputEl.value.setCustomValidity(props.validator.msg);
-      return;
+  const getErrorMsg = () => {
+    if (props.validator) {
+      if (props.validator.cb()) {
+        return props.validator.msg;
+      }
     }
-  }
 
-  if (decimalValue.value < min.value) {
-    inputEl.value.setCustomValidity(`${min.value}以上の値で入力してください`);
-    return;
-  }
-  if (decimalValue.value > max.value) {
-    inputEl.value.setCustomValidity(`${max.value}以下の値で入力してください`);
-    return;
-  }
-  inputEl.value.setCustomValidity("");
+    if (decimalValue.value < min.value) {
+      return `${min.value}以上の値で入力してください`;
+    }
+    if (decimalValue.value > max.value) {
+      return `${max.value}以下の値で入力してください`;
+    }
+    // no error
+    return "";
+  };
+  errorMsg.value = getErrorMsg();
+  inputEl.value.setCustomValidity(errorMsg.value);
 };
 
 watch(
@@ -95,6 +98,12 @@ watch(decimalValue, (val) => {
         {{ bitLength - n }}
       </span>
     </label>
+    <div
+      class="absolute top-[100%] mt-1 overflow-hidden text-xs h-3 leading-3 text-red-500"
+      :title="errorMsg"
+    >
+      {{ errorMsg }}
+    </div>
   </div>
 </template>
 
