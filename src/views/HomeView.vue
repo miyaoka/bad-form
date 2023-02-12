@@ -67,20 +67,21 @@ const speech = (text: string) => {
   window.speechSynthesis.speak(uttr);
 };
 
-const dateValidator = {
-  cb: () => {
-    const date = new Date(ymd.value);
-    // Invalid date、または2/30->3/2のように月が合わなくなる場合にエラーにする
-    return date.getMonth() + 1 !== month.value;
-  },
-  msg: "存在しない日付です",
+const dateValidator = () => {
+  const date = new Date(`${ymd.value}T00:00`);
+  // Invalid date、または2/30->3/2のように月が合わなくなる場合にエラーにする
+  if (date.getMonth() + 1 !== month.value) {
+    return "存在しない日付です";
+  }
+  if (new Date().getTime() < date.getTime()) {
+    return "未来の日付です";
+  }
+  return "";
 };
 
-const phoneValidator = {
-  cb: () => {
-    return !/-/.test(formattedPhoneNumber.value);
-  },
-  msg: "有効な番号ではありません",
+const phoneValidator = () => {
+  // 正しくフォーマットされていなければ無効
+  return /-/.test(formattedPhoneNumber.value) ? "" : "有効な番号ではありません";
 };
 </script>
 
@@ -128,7 +129,12 @@ const phoneValidator = {
               <p class="text-2xl text-center">
                 {{ formatNum(year) }}
               </p>
-              <CheckBoxNumberInput :min="1900" :max="2100" v-model="year" />
+              <CheckBoxNumberInput
+                :min="1900"
+                :max="2100"
+                v-model="year"
+                :validator="dateValidator"
+              />
             </div>
             <p class="text-xl">年</p>
           </div>
@@ -137,7 +143,12 @@ const phoneValidator = {
               <p class="text-2xl text-center">
                 {{ month }}
               </p>
-              <CheckBoxNumberInput :min="1" :max="12" v-model="month" />
+              <CheckBoxNumberInput
+                :min="1"
+                :max="12"
+                v-model="month"
+                :validator="dateValidator"
+              />
             </div>
             <p class="text-xl">月</p>
           </div>

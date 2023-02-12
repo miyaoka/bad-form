@@ -5,10 +5,7 @@ const props = defineProps<{
   modelValue?: number;
   min?: number;
   max?: number;
-  validator?: {
-    cb: () => boolean;
-    msg: string;
-  };
+  validator?: () => string;
 }>();
 const emit = defineEmits<{
   (e: "update:modelValue", value: number): void;
@@ -38,9 +35,8 @@ const validate = () => {
 
   const getErrorMsg = () => {
     if (props.validator) {
-      if (props.validator.cb()) {
-        return props.validator.msg;
-      }
+      const msg = props.validator();
+      if (msg !== "") return msg;
     }
 
     if (decimalValue.value < min.value) {
