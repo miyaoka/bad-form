@@ -213,13 +213,13 @@ const phoneValidator = () => {
               </p>
               <CheckBoxNumberInput
                 :min="1"
-                :max="Number.MAX_SAFE_INTEGER"
+                :max="2 ** 60"
                 v-model="population"
               />
             </div>
             <p class="text-xl">人</p>
           </div>
-          <div>
+          <div class="flex flex-row items-center gap-1">
             <button
               type="button"
               @click="speech(`${population}人`)"
@@ -233,6 +233,9 @@ const phoneValidator = () => {
               />
               再生
             </button>
+            <p class="text-sm">
+              （大きい数が分かりづらいので音声で確認できます）
+            </p>
           </div>
         </div>
       </section>
