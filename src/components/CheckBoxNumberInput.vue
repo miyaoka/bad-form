@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>();
 
 const getBitLength = (num: number) => {
-  return (Math.log2(num) + 1) | 0;
+  return num.toString(2).length;
 };
 const min = computed(() => Math.max(0, props.min ?? 0));
 const max = computed(() => Math.min(Number.MAX_SAFE_INTEGER, props.max ?? 10));
