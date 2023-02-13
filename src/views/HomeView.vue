@@ -68,9 +68,13 @@ const speech = (text: string) => {
 };
 
 const dateValidator = () => {
-  const date = new Date(`${ymd.value}T00:00`);
-  // Invalid date、または2/30->3/2のように月が合わなくなる場合にエラーにする
-  if (date.getMonth() + 1 !== month.value) {
+  const date = new Date(year.value, month.value - 1, day.value);
+  // Invalid date、または2/30->3/2のように日付が変わってしまう場合にエラーにする
+  const isValid =
+    date.getFullYear() === year.value &&
+    date.getMonth() === month.value - 1 &&
+    date.getDate() === day.value;
+  if (!isValid) {
     return "存在しない日付です";
   }
   if (new Date().getTime() < date.getTime()) {
