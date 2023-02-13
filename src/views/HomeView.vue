@@ -62,6 +62,7 @@ const onSubmit = () => {
 
 const speech = (text: string) => {
   const uttr = new SpeechSynthesisUtterance();
+  uttr.lang = "ja-JP";
   uttr.text = text;
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(uttr);
