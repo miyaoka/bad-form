@@ -234,10 +234,11 @@ const phoneValidator = () => {
           </div>
         </div>
       </section>
-      <footer class="flex justify-center">
+      <footer class="flex flex-col items-center">
         <button type="submit" class="bg-blue-500 text-white px-10 py-2">
           送信
         </button>
+        <p class="text-sm">（確認用。サーバーには送信しません）</p>
       </footer>
     </form>
     <footer class="text-center underline">
