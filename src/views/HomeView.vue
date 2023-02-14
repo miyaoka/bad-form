@@ -22,11 +22,11 @@ const formatNum = (num: number) => numberFormatter.format(num);
 
 // 固定電話: 市外局番-市内局番-4桁番号
 const homePhoneReg = new RegExp(
-  `^(?<area>${areaCodeList.join("|")})(?<localArea>.+)(?<rest>.{4})`
+  `^(?<area>${areaCodeList.join("|")})(?<localArea>.+)(?<rest>.{4})$`
 );
 // 携帯電話: 0x0-市内局番-4桁番号
 const mobilePhoneReg = new RegExp(
-  `^(?<area>[^0]0)(?<localArea>.+)(?<rest>.{4})`
+  `^(?<area>[^0]0)(?<localArea>.+)(?<rest>.{4})$`
 );
 
 // 電話番号の形式が正しい場合にハイフン区切りにして返す
