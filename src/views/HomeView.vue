@@ -225,12 +225,7 @@ const phoneValidator = () => {
               @click="speech(`${population}人`)"
               class="flex flex-row border p-1 gap-2"
             >
-              <img
-                alt="再生"
-                class="h-6 w-6"
-                src="@/assets/IconSpeaker.svg"
-                @click="speech(`${population}人`)"
-              />
+              <img alt="再生" class="h-6 w-6" src="@/assets/IconSpeaker.svg" />
               再生
             </button>
             <p class="text-sm">
